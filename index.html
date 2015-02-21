@@ -257,9 +257,9 @@ cubes = (function() {
     </p>
 
     <p>
-      To install, first make sure you have a working copy of the latest stable version of
-      <a href="http://nodejs.org/">Node.js</a>. You can then install CoffeeScript globally
-      with <a href="http://npmjs.org">npm</a>:
+      安装前你需要最新稳定版 <a href="http://nodejs.org/">Node.js</a>,
+      和 <a href="http://npmjs.org">npm</a> (Node Package Manager).
+      借助 npm 可以安装 CoffeeScript:
     </p>
 
     <pre>
@@ -2142,7 +2142,7 @@ Released under the MIT License
 </code></pre><pre><code><span class="keyword">var</span> OPERATOR;
 
 OPERATOR = <span class="regexp">/^(?:[-=]&gt;|[-+*\/%&lt;&gt;&amp;|^!?=]=|&gt;&gt;&gt;=?|([-+:])\1|([&amp;|&lt;&gt;])\2=?|\?\.|\.{2,3})/</span>;
-</code></pre><script>window.example42 = "OPERATOR = /// ^ (\n  ?: [-=]>             # 函数\n   | [-+*/%<>&|^!?=]=  # 复合赋值 / 比较\n   | >>>=?             # 补 0 右移\n   | ([-+:])\\1         # 双写\n   | ([&|<>])\\2=?      # 逻辑 / 移位\n   | \\?\\.              # soak access\n   | \\.{2,3}           # 范围或者 splat\n) ///\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example42);'>load</div><br class='clear' /></div>
+</code></pre><script>window.example42 = "OPERATOR = /// ^ (\n  ?: [-=]>             # 函数\n   | [-+*/%<>&|^!?=]=  # 复合赋值 / 比较\n   | >>>=?             # 补 0 右移\n   | ([-+:])\\1         # 双写\n   | ([&|<>])\\2=?      # 逻辑 / 移位\n   | \\?\\.              # soak 访问\n   | \\.{2,3}           # 范围或者 splat\n) ///\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example42);'>load</div><br class='clear' /></div>
 
 
     <h2>
