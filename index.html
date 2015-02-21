@@ -39,7 +39,7 @@
         <a href="#operators">Operators and Aliases</a>
         <a href="#classes">Classes, Inheritance, and Super</a>
         <a href="#destructuring">Destructuring Assignment</a>
-        <a href="#fat-arrow">Function Binding</a>
+        <a href="#fat-arrow">Bound and Generator Functions</a>
         <a href="#embedded">Embedded JavaScript</a>
         <a href="#switch">Switch and Try/Catch</a>
         <a href="#comparisons">Chained Comparisons</a>
@@ -92,7 +92,6 @@
         <a href="documentation/docs/sourcemap.html">Source Maps &mdash; src/sourcemap</a>
       </div>
     </div>
-    <div id="error" style="display:none;"></div>
   </div>
 
   <div class="container">
@@ -114,11 +113,10 @@
 
     <p>
       <b>最新版本:</b>
-      <a href="http://github.com/jashkenas/coffee-script/tarball/1.7.1">1.7.1</a>
+      <a href="http://github.com/jashkenas/coffeescript/tarball/1.9.1">1.9.1</a>
     </p>
 
-    <pre>
-sudo npm install -g coffee-script</pre>
+    <pre>npm install -g coffee-script</pre>
 
     <h2>
       <span id="overview" class="bookmark"></span>
@@ -156,7 +154,7 @@ alert <span class="string">"I knew it!"</span> <span class="keyword">if</span> e
 <span class="comment"># 数组 推导(comprehensions):</span>
 cubes = (math.cube num <span class="keyword">for</span> num <span class="keyword">in</span> list)
 </code></pre><pre><code><span class="keyword">var</span> cubes, list, math, num, number, opposite, race, square,
-  __slice = [].slice;
+  slice = [].slice;
 
 number = <span class="number">42</span>;
 
@@ -182,7 +180,7 @@ math = {
 
 race = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> runners, winner;
-  winner = <span class="built_in">arguments</span>[<span class="number">0</span>], runners = <span class="number">2</span> &lt;= <span class="built_in">arguments</span>.length ? __slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>) : [];
+  winner = <span class="built_in">arguments</span>[<span class="number">0</span>], runners = <span class="number">2</span> &lt;= <span class="built_in">arguments</span>.length ? slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>) : [];
   <span class="keyword">return</span> print(winner, runners);
 };
 
@@ -191,16 +189,16 @@ race = <span class="function"><span class="keyword">function</span><span class="
 }
 
 cubes = (<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-  <span class="keyword">var</span> _i, _len, _results;
-  _results = [];
-  <span class="keyword">for</span> (_i = <span class="number">0</span>, _len = list.length; _i &lt; _len; _i++) {
-    num = list[_i];
-    _results.push(math.cube(num));
+  <span class="keyword">var</span> i, len, results;
+  results = [];
+  <span class="keyword">for</span> (i = <span class="number">0</span>, len = list.length; i &lt; len; i++) {
+    num = list[i];
+    results.push(math.cube(num));
   }
-  <span class="keyword">return</span> _results;
+  <span class="keyword">return</span> results;
 })();
 </code></pre><script>window.example1 = "# 赋值:\nnumber   = 42\nopposite = true\n\n# 条件:\nnumber = -42 if opposite\n\n# 函数:\nsquare = (x) -> x * x\n\n# 数组:\nlist = [1, 2, 3, 4, 5]\n\n# 对象:\nmath =\n  root:   Math.sqrt\n  square: square\n  cube:   (x) -> x * square x\n\n# Splats:\nrace = (winner, runners...) ->\n  print winner, runners\n\n# 存在性:\nalert \"I knew it!\" if elvis?\n\n# 数组 推导(comprehensions):\ncubes = (math.cube num for num in list)\n"</script><div class='minibutton ok' onclick='javascript: var cubes, list, math, num, number, opposite, race, square,
-  __slice = [].slice;
+  slice = [].slice;
 
 number = 42;
 
@@ -226,7 +224,7 @@ math = {
 
 race = function() {
   var runners, winner;
-  winner = arguments[0], runners = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+  winner = arguments[0], runners = 2 <= arguments.length ? slice.call(arguments, 1) : [];
   return print(winner, runners);
 };
 
@@ -235,13 +233,13 @@ if (typeof elvis !== "undefined" && elvis !== null) {
 }
 
 cubes = (function() {
-  var _i, _len, _results;
-  _results = [];
-  for (_i = 0, _len = list.length; _i < _len; _i++) {
-    num = list[_i];
-    _results.push(math.cube(num));
+  var i, len, results;
+  results = [];
+  for (i = 0, len = list.length; i < len; i++) {
+    num = list[i];
+    results.push(math.cube(num));
   }
-  return _results;
+  return results;
 })();
 ;alert(cubes);'>run: cubes</div><br class='clear' /></div>
 
@@ -259,9 +257,9 @@ cubes = (function() {
     </p>
 
     <p>
-      安装前你需要最新稳定版 <a href="http://nodejs.org/">Node.js</a>,
-      和 <a href="http://npmjs.org">npm</a> (Node Package Manager).
-      借助 npm 可以安装 CoffeeScript:
+      To install, first make sure you have a working copy of the latest stable version of
+      <a href="http://nodejs.org/">Node.js</a>. You can then install CoffeeScript globally
+      with <a href="http://npmjs.org">npm</a>:
     </p>
 
     <pre>
@@ -271,6 +269,9 @@ npm install -g coffee-script</pre>
       (如果不想全局安装可以去掉 <tt>-g</tt> 选项.)
     </p>
 
+    <pre>
+npm install --save coffee-script</pre>
+
     <p>
       如果你希望安装 <b>master</b> 分支上最新的 CoffeeScript,
       你可以从<a href="http://github.com/jashkenas/coffee-script">源码仓库</a> 克隆 CoffeeScript,
@@ -279,7 +280,7 @@ npm install -g coffee-script</pre>
     </p>
 
 <pre>
-npm install -g http://github.com/jashkenas/coffee-script/tarball/master</pre>
+npm install -g jashkenas/coffeescript</pre>
 
     <p>
       或者你想将其安装到 <tt>/usr/local</tt>, 而不用 npm 进行管理,
@@ -453,7 +454,7 @@ Expressions
       Just for kicks, a little bit of the compiler is currently implemented in this fashion:
       See it
       <a href="https://gist.github.com/jashkenas/3fc3c1a8b1009c00d9df">as a document</a>,
-      <a href="https://raw.github.com/jashkenas/coffee-script/master/src/scope.litcoffee">raw</a>,
+      <a href="https://raw.github.com/jashkenas/coffeescript/master/src/scope.litcoffee">raw</a>,
       and <a href="http://cl.ly/LxEu">properly highlighted in a text editor</a>.
     </p>
 
@@ -774,13 +775,13 @@ alert <span class="string">"The Field: "</span> + rest
 
 
 </code></pre><pre><code><span class="keyword">var</span> awardMedals, contenders, gold, rest, silver,
-  __slice = [].slice;
+  slice = [].slice;
 
 gold = silver = rest = <span class="string">"unknown"</span>;
 
 awardMedals = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> first, others, second;
-  first = <span class="built_in">arguments</span>[<span class="number">0</span>], second = <span class="built_in">arguments</span>[<span class="number">1</span>], others = <span class="number">3</span> &lt;= <span class="built_in">arguments</span>.length ? __slice.call(<span class="built_in">arguments</span>, <span class="number">2</span>) : [];
+  first = <span class="built_in">arguments</span>[<span class="number">0</span>], second = <span class="built_in">arguments</span>[<span class="number">1</span>], others = <span class="number">3</span> &lt;= <span class="built_in">arguments</span>.length ? slice.call(<span class="built_in">arguments</span>, <span class="number">2</span>) : [];
   gold = first;
   silver = second;
   <span class="keyword">return</span> rest = others;
@@ -796,13 +797,13 @@ alert(<span class="string">"Silver: "</span> + silver);
 
 alert(<span class="string">"The Field: "</span> + rest);
 </code></pre><script>window.example8 = "gold = silver = rest = \"unknown\"\n\nawardMedals = (first, second, others...) ->\n  gold   = first\n  silver = second\n  rest   = others\n\ncontenders = [\n  \"Michael Phelps\"\n  \"Liu Xiang\"\n  \"Yao Ming\"\n  \"Allyson Felix\"\n  \"Shawn Johnson\"\n  \"Roman Sebrle\"\n  \"Guo Jingjing\"\n  \"Tyson Gay\"\n  \"Asafa Powell\"\n  \"Usain Bolt\"\n]\n\nawardMedals contenders...\n\nalert \"Gold: \" + gold\nalert \"Silver: \" + silver\nalert \"The Field: \" + rest\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example8);'>load</div><div class='minibutton ok' onclick='javascript: var awardMedals, contenders, gold, rest, silver,
-  __slice = [].slice;
+  slice = [].slice;
 
 gold = silver = rest = "unknown";
 
 awardMedals = function() {
   var first, others, second;
-  first = arguments[0], second = arguments[1], others = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
+  first = arguments[0], second = arguments[1], others = 3 <= arguments.length ? slice.call(arguments, 2) : [];
   gold = first;
   silver = second;
   return rest = others;
@@ -836,25 +837,25 @@ menu i + <span class="number">1</span>, dish <span class="keyword">for</span> di
 <span class="comment"># 注重健康的一餐.</span>
 foods = [<span class="string">'broccoli'</span>, <span class="string">'spinach'</span>, <span class="string">'chocolate'</span>]
 eat food <span class="keyword">for</span> food <span class="keyword">in</span> foods <span class="keyword">when</span> food <span class="keyword">isnt</span> <span class="string">'chocolate'</span>
-</code></pre><pre><code><span class="keyword">var</span> courses, dish, food, foods, i, _i, _j, _k, _len, _len1, _len2, _ref;
+</code></pre><pre><code><span class="keyword">var</span> courses, dish, food, foods, i, j, k, l, len, len1, len2, ref;
 
-_ref = [<span class="string">'toast'</span>, <span class="string">'cheese'</span>, <span class="string">'wine'</span>];
-<span class="keyword">for</span> (_i = <span class="number">0</span>, _len = _ref.length; _i &lt; _len; _i++) {
-  food = _ref[_i];
+ref = [<span class="string">'toast'</span>, <span class="string">'cheese'</span>, <span class="string">'wine'</span>];
+<span class="keyword">for</span> (j = <span class="number">0</span>, len = ref.length; j &lt; len; j++) {
+  food = ref[j];
   eat(food);
 }
 
 courses = [<span class="string">'greens'</span>, <span class="string">'caviar'</span>, <span class="string">'truffles'</span>, <span class="string">'roast'</span>, <span class="string">'cake'</span>];
 
-<span class="keyword">for</span> (i = _j = <span class="number">0</span>, _len1 = courses.length; _j &lt; _len1; i = ++_j) {
+<span class="keyword">for</span> (i = k = <span class="number">0</span>, len1 = courses.length; k &lt; len1; i = ++k) {
   dish = courses[i];
   menu(i + <span class="number">1</span>, dish);
 }
 
 foods = [<span class="string">'broccoli'</span>, <span class="string">'spinach'</span>, <span class="string">'chocolate'</span>];
 
-<span class="keyword">for</span> (_k = <span class="number">0</span>, _len2 = foods.length; _k &lt; _len2; _k++) {
-  food = foods[_k];
+<span class="keyword">for</span> (l = <span class="number">0</span>, len2 = foods.length; l &lt; len2; l++) {
+  food = foods[l];
   <span class="keyword">if</span> (food !== <span class="string">'chocolate'</span>) {
     eat(food);
   }
@@ -872,22 +873,22 @@ foods = [<span class="string">'broccoli'</span>, <span class="string">'spinach'<
 </code></pre><pre><code><span class="keyword">var</span> countdown, num;
 
 countdown = (<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-  <span class="keyword">var</span> _i, _results;
-  _results = [];
-  <span class="keyword">for</span> (num = _i = <span class="number">10</span>; _i &gt;= <span class="number">1</span>; num = --_i) {
-    _results.push(num);
+  <span class="keyword">var</span> i, results;
+  results = [];
+  <span class="keyword">for</span> (num = i = <span class="number">10</span>; i &gt;= <span class="number">1</span>; num = --i) {
+    results.push(num);
   }
-  <span class="keyword">return</span> _results;
+  <span class="keyword">return</span> results;
 })();
 </code></pre><script>window.example10 = "countdown = (num for num in [10..1])\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example10);'>load</div><div class='minibutton ok' onclick='javascript: var countdown, num;
 
 countdown = (function() {
-  var _i, _results;
-  _results = [];
-  for (num = _i = 10; _i >= 1; num = --_i) {
-    _results.push(num);
+  var i, results;
+  results = [];
+  for (num = i = 10; i >= 1; num = --i) {
+    results.push(num);
   }
-  return _results;
+  return results;
 })();
 ;alert(countdown);'>run: countdown</div><br class='clear' /></div>
     <p>
@@ -918,13 +919,13 @@ yearsOld = {
 };
 
 ages = (<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-  <span class="keyword">var</span> _results;
-  _results = [];
+  <span class="keyword">var</span> results;
+  results = [];
   <span class="keyword">for</span> (child <span class="keyword">in</span> yearsOld) {
     age = yearsOld[child];
-    _results.push(<span class="string">""</span> + child + <span class="string">" is "</span> + age);
+    results.push(child + <span class="string">" is "</span> + age);
   }
-  <span class="keyword">return</span> _results;
+  <span class="keyword">return</span> results;
 })();
 </code></pre><script>window.example11 = "yearsOld = max: 10, ida: 9, tim: 11\n\nages = for child, age of yearsOld\n  \"#{child} is #{age}\"\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example11);'>load</div><div class='minibutton ok' onclick='javascript: var age, ages, child, yearsOld;
 
@@ -935,13 +936,13 @@ yearsOld = {
 };
 
 ages = (function() {
-  var _results;
-  _results = [];
+  var results;
+  results = [];
   for (child in yearsOld) {
     age = yearsOld[child];
-    _results.push("" + child + " is " + age);
+    results.push(child + " is " + age);
   }
-  return _results;
+  return results;
 })();
 ;alert(ages.join(", "));'>run: ages.join(", ")</div><br class='clear' /></div>
     <p>
@@ -978,12 +979,12 @@ lyrics = <span class="keyword">while</span> num -= <span class="number">1</span>
 num = <span class="number">6</span>;
 
 lyrics = (<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-  <span class="keyword">var</span> _results;
-  _results = [];
+  <span class="keyword">var</span> results;
+  results = [];
   <span class="keyword">while</span> (num -= <span class="number">1</span>) {
-    _results.push(<span class="string">""</span> + num + <span class="string">" little monkeys, jumping on the bed. One fell out and bumped his head."</span>);
+    results.push(num + <span class="string">" little monkeys, jumping on the bed. One fell out and bumped his head."</span>);
   }
-  <span class="keyword">return</span> _results;
+  <span class="keyword">return</span> results;
 })();
 </code></pre><script>window.example12 = "# 经济 101\nif this.studyingEconomics\n  buy()  while supply > demand\n  sell() until supply > demand\n\n# 摇篮曲\nnum = 6\nlyrics = while num -= 1\n  \"#{num} little monkeys, jumping on the bed.\n    One fell out and bumped his head.\"\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example12);'>load</div><div class='minibutton ok' onclick='javascript: var lyrics, num;
 
@@ -999,12 +1000,12 @@ if (this.studyingEconomics) {
 num = 6;
 
 lyrics = (function() {
-  var _results;
-  _results = [];
+  var results;
+  results = [];
   while (num -= 1) {
-    _results.push("" + num + " little monkeys, jumping on the bed. One fell out and bumped his head.");
+    results.push(num + " little monkeys, jumping on the bed. One fell out and bumped his head.");
   }
-  return _results;
+  return results;
 })();
 ;alert(lyrics.join("
 "));'>run: lyrics.join("
@@ -1023,16 +1024,16 @@ lyrics = (function() {
     <div class='code'><pre><code><span class="keyword">for</span> filename <span class="keyword">in</span> list
   <span class="keyword">do</span> <span class="function"><span class="params">(filename)</span> -&gt;</span>
     fs.readFile filename, <span class="function"><span class="params">(err, contents)</span> -&gt;</span>
-      compile filename, contents.toString()</code></pre><pre><code><span class="keyword">var</span> filename, _fn, _i, _len;
+      compile filename, contents.toString()</code></pre><pre><code><span class="keyword">var</span> filename, fn, i, len;
 
-_fn = <span class="function"><span class="keyword">function</span><span class="params">(filename)</span> {</span>
+fn = <span class="function"><span class="keyword">function</span><span class="params">(filename)</span> {</span>
   <span class="keyword">return</span> fs.readFile(filename, <span class="function"><span class="keyword">function</span><span class="params">(err, contents)</span> {</span>
     <span class="keyword">return</span> compile(filename, contents.toString());
   });
 };
-<span class="keyword">for</span> (_i = <span class="number">0</span>, _len = list.length; _i &lt; _len; _i++) {
-  filename = list[_i];
-  _fn(filename);
+<span class="keyword">for</span> (i = <span class="number">0</span>, len = list.length; i &lt; len; i++) {
+  filename = list[i];
+  fn(filename);
 }
 </code></pre><script>window.example13 = "for filename in list\n  do (filename) ->\n    fs.readFile filename, (err, contents) ->\n      compile filename, contents.toString()"</script><div class='minibutton load' onclick='javascript: loadConsole(example13);'>load</div><br class='clear' /></div>
 
@@ -1087,16 +1088,16 @@ numbers[<span class="number">3.</span><span class="number">.6</span>] = [-<span 
 
 
 
- </code></pre><pre><code><span class="keyword">var</span> numbers, _ref;
+ </code></pre><pre><code><span class="keyword">var</span> numbers, ref;
 
 numbers = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>];
 
-[].splice.apply(numbers, [<span class="number">3</span>, <span class="number">4</span>].concat(_ref = [-<span class="number">3</span>, -<span class="number">4</span>, -<span class="number">5</span>, -<span class="number">6</span>])), _ref;
-</code></pre><script>window.example15 = "numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n\nnumbers[3..6] = [-3, -4, -5, -6]\n\n\n\n "</script><div class='minibutton load' onclick='javascript: loadConsole(example15);'>load</div><div class='minibutton ok' onclick='javascript: var numbers, _ref;
+[].splice.apply(numbers, [<span class="number">3</span>, <span class="number">4</span>].concat(ref = [-<span class="number">3</span>, -<span class="number">4</span>, -<span class="number">5</span>, -<span class="number">6</span>])), ref;
+</code></pre><script>window.example15 = "numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n\nnumbers[3..6] = [-3, -4, -5, -6]\n\n\n\n "</script><div class='minibutton load' onclick='javascript: loadConsole(example15);'>load</div><div class='minibutton ok' onclick='javascript: var numbers, ref;
 
 numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-[].splice.apply(numbers, [3, 4].concat(_ref = [-3, -4, -5, -6])), _ref;
+[].splice.apply(numbers, [3, 4].concat(ref = [-3, -4, -5, -6])), ref;
 ;alert(numbers);'>run: numbers</div><br class='clear' /></div>
     <p>
       Note that JavaScript strings are immutable, and can't be spliced.
@@ -1184,22 +1185,22 @@ six = (one = 1) + (two = 2) + (three = 3);
 globals = (name <span class="keyword">for</span> name <span class="keyword">of</span> <span class="built_in">window</span>)[<span class="number">0.</span>.<span class="number">.10</span>]</code></pre><pre><code><span class="keyword">var</span> globals, name;
 
 globals = ((<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-  <span class="keyword">var</span> _results;
-  _results = [];
+  <span class="keyword">var</span> results;
+  results = [];
   <span class="keyword">for</span> (name <span class="keyword">in</span> window) {
-    _results.push(name);
+    results.push(name);
   }
-  <span class="keyword">return</span> _results;
+  <span class="keyword">return</span> results;
 })()).slice(<span class="number">0</span>, <span class="number">10</span>);
 </code></pre><script>window.example18 = "# 前十个全局属性(变量).\n\nglobals = (name for name of window)[0...10]"</script><div class='minibutton load' onclick='javascript: loadConsole(example18);'>load</div><div class='minibutton ok' onclick='javascript: var globals, name;
 
 globals = ((function() {
-  var _results;
-  _results = [];
+  var results;
+  results = [];
   for (name in window) {
-    _results.push(name);
+    results.push(name);
   }
-  return _results;
+  return results;
 })()).slice(0, 10);
 ;alert(globals);'>run: globals</div><br class='clear' /></div>
     <p>
@@ -1397,13 +1398,13 @@ footprints = typeof yeti !== "undefined" && yeti !== null ? yeti : "bear";
       the <b>TypeError</b> that would be raised otherwise.
     </p>
     <div class='code'><pre><code>zip = lottery.drawWinner?().address?.zipcode
-</code></pre><pre><code><span class="keyword">var</span> zip, _ref;
+</code></pre><pre><code><span class="keyword">var</span> ref, zip;
 
-zip = <span class="keyword">typeof</span> lottery.drawWinner === <span class="string">"function"</span> ? (_ref = lottery.drawWinner().address) != <span class="literal">null</span> ? _ref.zipcode : <span class="keyword">void</span> <span class="number">0</span> : <span class="keyword">void</span> <span class="number">0</span>;
+zip = <span class="keyword">typeof</span> lottery.drawWinner === <span class="string">"function"</span> ? (ref = lottery.drawWinner().address) != <span class="literal">null</span> ? ref.zipcode : <span class="keyword">void</span> <span class="number">0</span> : <span class="keyword">void</span> <span class="number">0</span>;
 </code></pre><script>window.example22 = "zip = lottery.drawWinner?().address?.zipcode\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example22);'>load</div><br class='clear' /></div>
     <p>
       Soaking up nulls is similar to Ruby's
-      <a href="http://andand.rubyforge.org/">andand gem</a>, and to the
+      <a href="https://rubygems.org/gems/andand">andand gem</a>, and to the
       <a href="http://groovy.codehaus.org/Operators#Operators-SafeNavigationOperator%28%3F.%29">safe navigation operator</a>
       in Groovy.
     </p>
@@ -1459,8 +1460,8 @@ tom.move()
 
 
 </code></pre><pre><code><span class="keyword">var</span> Animal, Horse, Snake, sam, tom,
-  __hasProp = {}.hasOwnProperty,
-  __extends = <span class="function"><span class="keyword">function</span><span class="params">(child, parent)</span> {</span> <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> parent) { <span class="keyword">if</span> (__hasProp.call(parent, key)) child[key] = parent[key]; } <span class="function"><span class="keyword">function</span> <span class="title">ctor</span><span class="params">()</span> {</span> <span class="keyword">this</span>.constructor = child; } ctor.prototype = parent.prototype; child.prototype = <span class="keyword">new</span> ctor(); child.__super__ = parent.prototype; <span class="keyword">return</span> child; };
+  extend = <span class="function"><span class="keyword">function</span><span class="params">(child, parent)</span> {</span> <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> parent) { <span class="keyword">if</span> (hasProp.call(parent, key)) child[key] = parent[key]; } <span class="function"><span class="keyword">function</span> <span class="title">ctor</span><span class="params">()</span> {</span> <span class="keyword">this</span>.constructor = child; } ctor.prototype = parent.prototype; child.prototype = <span class="keyword">new</span> ctor(); child.__super__ = parent.prototype; <span class="keyword">return</span> child; },
+  hasProp = {}.hasOwnProperty;
 
 Animal = (<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
   <span class="function"><span class="keyword">function</span> <span class="title">Animal</span><span class="params">(name)</span> {</span>
@@ -1475,8 +1476,8 @@ Animal = (<span class="function"><span class="keyword">function</span><span clas
 
 })();
 
-Snake = (<span class="function"><span class="keyword">function</span><span class="params">(_super)</span> {</span>
-  __extends(Snake, _super);
+Snake = (<span class="function"><span class="keyword">function</span><span class="params">(superClass)</span> {</span>
+  extend(Snake, superClass);
 
   <span class="function"><span class="keyword">function</span> <span class="title">Snake</span><span class="params">()</span> {</span>
     <span class="keyword">return</span> Snake.__super__.constructor.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);
@@ -1491,8 +1492,8 @@ Snake = (<span class="function"><span class="keyword">function</span><span class
 
 })(Animal);
 
-Horse = (<span class="function"><span class="keyword">function</span><span class="params">(_super)</span> {</span>
-  __extends(Horse, _super);
+Horse = (<span class="function"><span class="keyword">function</span><span class="params">(superClass)</span> {</span>
+  extend(Horse, superClass);
 
   <span class="function"><span class="keyword">function</span> <span class="title">Horse</span><span class="params">()</span> {</span>
     <span class="keyword">return</span> Horse.__super__.constructor.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);
@@ -1515,8 +1516,8 @@ sam.move();
 
 tom.move();
 </code></pre><script>window.example23 = "class Animal\n  constructor: (@name) ->\n\n  move: (meters) ->\n    alert @name + \" moved #{meters}m.\"\n\nclass Snake extends Animal\n  move: ->\n    alert \"Slithering...\"\n    super 5\n\nclass Horse extends Animal\n  move: ->\n    alert \"Galloping...\"\n    super 45\n\nsam = new Snake \"Sammy the Python\"\ntom = new Horse \"Tommy the Palomino\"\n\nsam.move()\ntom.move()\n\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example23);'>load</div><div class='minibutton ok' onclick='javascript: var Animal, Horse, Snake, sam, tom,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
 Animal = (function() {
   function Animal(name) {
@@ -1531,8 +1532,8 @@ Animal = (function() {
 
 })();
 
-Snake = (function(_super) {
-  __extends(Snake, _super);
+Snake = (function(superClass) {
+  extend(Snake, superClass);
 
   function Snake() {
     return Snake.__super__.constructor.apply(this, arguments);
@@ -1547,8 +1548,8 @@ Snake = (function(_super) {
 
 })(Animal);
 
-Horse = (function(_super) {
-  __extends(Horse, _super);
+Horse = (function(superClass) {
+  extend(Horse, superClass);
 
   function Horse() {
     return Horse.__super__.constructor.apply(this, arguments);
@@ -1616,20 +1617,20 @@ theSwitch = <span class="number">0</span>
 
 
 
- </code></pre><pre><code><span class="keyword">var</span> theBait, theSwitch, _ref;
+ </code></pre><pre><code><span class="keyword">var</span> ref, theBait, theSwitch;
 
 theBait = <span class="number">1000</span>;
 
 theSwitch = <span class="number">0</span>;
 
-_ref = [theSwitch, theBait], theBait = _ref[<span class="number">0</span>], theSwitch = _ref[<span class="number">1</span>];
-</code></pre><script>window.example25 = "theBait   = 1000\ntheSwitch = 0\n\n[theBait, theSwitch] = [theSwitch, theBait]\n\n\n\n\n "</script><div class='minibutton load' onclick='javascript: loadConsole(example25);'>load</div><div class='minibutton ok' onclick='javascript: var theBait, theSwitch, _ref;
+ref = [theSwitch, theBait], theBait = ref[<span class="number">0</span>], theSwitch = ref[<span class="number">1</span>];
+</code></pre><script>window.example25 = "theBait   = 1000\ntheSwitch = 0\n\n[theBait, theSwitch] = [theSwitch, theBait]\n\n\n\n\n "</script><div class='minibutton load' onclick='javascript: loadConsole(example25);'>load</div><div class='minibutton ok' onclick='javascript: var ref, theBait, theSwitch;
 
 theBait = 1000;
 
 theSwitch = 0;
 
-_ref = [theSwitch, theBait], theBait = _ref[0], theSwitch = _ref[1];
+ref = [theSwitch, theBait], theBait = ref[0], theSwitch = ref[1];
 ;alert(theBait);'>run: theBait</div><br class='clear' /></div>
     <p>
       But it's also helpful for dealing with functions that return multiple
@@ -1644,20 +1645,20 @@ _ref = [theSwitch, theBait], theBait = _ref[0], theSwitch = _ref[1];
 
 
 
-</code></pre><pre><code><span class="keyword">var</span> city, forecast, temp, weatherReport, _ref;
+</code></pre><pre><code><span class="keyword">var</span> city, forecast, ref, temp, weatherReport;
 
 weatherReport = <span class="function"><span class="keyword">function</span><span class="params">(location)</span> {</span>
   <span class="keyword">return</span> [location, <span class="number">72</span>, <span class="string">"Mostly Sunny"</span>];
 };
 
-_ref = weatherReport(<span class="string">"Berkeley, CA"</span>), city = _ref[<span class="number">0</span>], temp = _ref[<span class="number">1</span>], forecast = _ref[<span class="number">2</span>];
-</code></pre><script>window.example26 = "weatherReport = (location) ->\n  # 发起一个 Ajax 请求获取天气...\n  [location, 72, \"Mostly Sunny\"]\n\n[city, temp, forecast] = weatherReport \"Berkeley, CA\"\n\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example26);'>load</div><div class='minibutton ok' onclick='javascript: var city, forecast, temp, weatherReport, _ref;
+ref = weatherReport(<span class="string">"Berkeley, CA"</span>), city = ref[<span class="number">0</span>], temp = ref[<span class="number">1</span>], forecast = ref[<span class="number">2</span>];
+</code></pre><script>window.example26 = "weatherReport = (location) ->\n  # 发起一个 Ajax 请求获取天气...\n  [location, 72, \"Mostly Sunny\"]\n\n[city, temp, forecast] = weatherReport \"Berkeley, CA\"\n\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example26);'>load</div><div class='minibutton ok' onclick='javascript: var city, forecast, ref, temp, weatherReport;
 
 weatherReport = function(location) {
   return [location, 72, "Mostly Sunny"];
 };
 
-_ref = weatherReport("Berkeley, CA"), city = _ref[0], temp = _ref[1], forecast = _ref[2];
+ref = weatherReport("Berkeley, CA"), city = ref[0], temp = ref[1], forecast = ref[2];
 ;alert(forecast);'>run: forecast</div><br class='clear' /></div>
     <p>
       Destructuring assignment can be used with any depth of array and object nesting,
@@ -1677,7 +1678,7 @@ _ref = weatherReport("Berkeley, CA"), city = _ref[0], temp = _ref[1], forecast =
 
 
 
-</code></pre><pre><code><span class="keyword">var</span> city, futurists, name, street, _ref, _ref1;
+</code></pre><pre><code><span class="keyword">var</span> city, futurists, name, ref, ref1, street;
 
 futurists = {
   sculptor: <span class="string">"Umberto Boccioni"</span>,
@@ -1688,8 +1689,8 @@ futurists = {
   }
 };
 
-_ref = futurists.poet, name = _ref.name, (_ref1 = _ref.address, street = _ref1[<span class="number">0</span>], city = _ref1[<span class="number">1</span>]);
-</code></pre><script>window.example27 = "futurists =\n  sculptor: \"Umberto Boccioni\"\n  painter:  \"Vladimir Burliuk\"\n  poet:\n    name:   \"F.T. Marinetti\"\n    address: [\n      \"Via Roma 42R\"\n      \"Bellagio, Italy 22021\"\n    ]\n\n{poet: {name, address: [street, city]}} = futurists\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example27);'>load</div><div class='minibutton ok' onclick='javascript: var city, futurists, name, street, _ref, _ref1;
+ref = futurists.poet, name = ref.name, (ref1 = ref.address, street = ref1[<span class="number">0</span>], city = ref1[<span class="number">1</span>]);
+</code></pre><script>window.example27 = "futurists =\n  sculptor: \"Umberto Boccioni\"\n  painter:  \"Vladimir Burliuk\"\n  poet:\n    name:   \"F.T. Marinetti\"\n    address: [\n      \"Via Roma 42R\"\n      \"Bellagio, Italy 22021\"\n    ]\n\n{poet: {name, address: [street, city]}} = futurists\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example27);'>load</div><div class='minibutton ok' onclick='javascript: var city, futurists, name, ref, ref1, street;
 
 futurists = {
   sculptor: "Umberto Boccioni",
@@ -1700,8 +1701,8 @@ futurists = {
   }
 };
 
-_ref = futurists.poet, name = _ref.name, (_ref1 = _ref.address, street = _ref1[0], city = _ref1[1]);
-;alert("name + "-" + street");'>run: "name + "-" + street"</div><br class='clear' /></div>
+ref = futurists.poet, name = ref.name, (ref1 = ref.address, street = ref1[0], city = ref1[1]);
+;alert(name + "-" + street);'>run: name + "-" + street</div><br class='clear' /></div>
     <p>
       Destructuring assignment can even be combined with splats.
     </p>
@@ -1714,18 +1715,18 @@ _ref = futurists.poet, name = _ref.name, (_ref1 = _ref.address, street = _ref1[0
 
 
 
-</code></pre><pre><code><span class="keyword">var</span> close, contents, open, tag, _i, _ref,
-  __slice = [].slice;
+</code></pre><pre><code><span class="keyword">var</span> close, contents, i, open, ref, tag,
+  slice = [].slice;
 
 tag = <span class="string">"&lt;impossible&gt;"</span>;
 
-_ref = tag.split(<span class="string">""</span>), open = _ref[<span class="number">0</span>], contents = <span class="number">3</span> &lt;= _ref.length ? __slice.call(_ref, <span class="number">1</span>, _i = _ref.length - <span class="number">1</span>) : (_i = <span class="number">1</span>, []), close = _ref[_i++];
-</code></pre><script>window.example28 = "tag = \"<impossible>\"\n\n[open, contents..., close] = tag.split(\"\")\n\n\n\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example28);'>load</div><div class='minibutton ok' onclick='javascript: var close, contents, open, tag, _i, _ref,
-  __slice = [].slice;
+ref = tag.split(<span class="string">""</span>), open = ref[<span class="number">0</span>], contents = <span class="number">3</span> &lt;= ref.length ? slice.call(ref, <span class="number">1</span>, i = ref.length - <span class="number">1</span>) : (i = <span class="number">1</span>, []), close = ref[i++];
+</code></pre><script>window.example28 = "tag = \"<impossible>\"\n\n[open, contents..., close] = tag.split(\"\")\n\n\n\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example28);'>load</div><div class='minibutton ok' onclick='javascript: var close, contents, i, open, ref, tag,
+  slice = [].slice;
 
 tag = "<impossible>";
 
-_ref = tag.split(""), open = _ref[0], contents = 3 <= _ref.length ? __slice.call(_ref, 1, _i = _ref.length - 1) : (_i = 1, []), close = _ref[_i++];
+ref = tag.split(""), open = ref[0], contents = 3 <= ref.length ? slice.call(ref, 1, i = ref.length - 1) : (i = 1, []), close = ref[i++];
 ;alert(contents.join(""));'>run: contents.join("")</div><br class='clear' /></div>
     <p>
       Expansion can be used to retrieve elements from the end of an array without having to assign the rest of its values. It works in function parameter lists as well.
@@ -1737,17 +1738,17 @@ _ref = tag.split(""), open = _ref[0], contents = 3 <= _ref.length ? __slice.call
 
 
 
-</code></pre><pre><code><span class="keyword">var</span> first, last, text, _ref;
+</code></pre><pre><code><span class="keyword">var</span> first, last, ref, text;
 
 text = <span class="string">"Every literary critic believes he will outwit history and have the last word"</span>;
 
-_ref = text.split(<span class="string">" "</span>), first = _ref[<span class="number">0</span>], last = _ref[_ref.length - <span class="number">1</span>];
-</code></pre><script>window.example29 = "text = \"Every literary critic believes he will\n        outwit history and have the last word\"\n\n[first, ..., last] = text.split \" \"\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example29);'>load</div><div class='minibutton ok' onclick='javascript: var first, last, text, _ref;
+ref = text.split(<span class="string">" "</span>), first = ref[<span class="number">0</span>], last = ref[ref.length - <span class="number">1</span>];
+</code></pre><script>window.example29 = "text = \"Every literary critic believes he will\n        outwit history and have the last word\"\n\n[first, ..., last] = text.split \" \"\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example29);'>load</div><div class='minibutton ok' onclick='javascript: var first, last, ref, text;
 
 text = "Every literary critic believes he will outwit history and have the last word";
 
-_ref = text.split(" "), first = _ref[0], last = _ref[_ref.length - 1];
-;alert("first + " " + last");'>run: "first + " " + last"</div><br class='clear' /></div>
+ref = text.split(" "), first = ref[0], last = ref[ref.length - 1];
+;alert(first + " " + last);'>run: first + " " + last</div><br class='clear' /></div>
     <p>
       Destructuring assignment is also useful when combined with class constructors
       to assign properties to your instance from an options object passed to the constructor.
@@ -1790,7 +1791,7 @@ tim = new Person({
 
     <p>
       <span id="fat-arrow" class="bookmark"></span>
-      <b class="header">Function binding</b>
+      <b class="header">Bound Functions, Generator Functions</b>
       In JavaScript, the <tt>this</tt> keyword is dynamically scoped to mean the
       object that the current function is attached to. If you pass a function as
       a callback or attach it to a different object, the original value of <tt>this</tt>
@@ -1833,6 +1834,44 @@ Account = <span class="function"><span class="keyword">function</span><span clas
       be automatically bound to each instance of the class when the instance is
       constructed.
     </p>
+    <p>
+      CoffeeScript functions also support 
+      <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*">ES6 generator functions</a>
+      through the <tt>yield</tt> keyword. There's no <tt>function*(){}</tt> 
+      nonsense &mdash; a generator in CoffeeScript is simply a function that yields.
+    </p>
+    <div class='code'><pre><code><span class="function"><span class="title">perfectSquares</span> = -&gt;</span>
+  num = <span class="number">0</span>
+  <span class="keyword">loop</span>
+    num += <span class="number">1</span>
+    yield num * num
+  <span class="keyword">return</span>
+
+<span class="built_in">window</span>.ps <span class="keyword">or</span>= perfectSquares()</code></pre><pre><code><span class="keyword">var</span> perfectSquares;
+
+perfectSquares = <span class="function"><span class="keyword">function</span>*<span class="params">()</span> {</span>
+  <span class="keyword">var</span> num;
+  num = <span class="number">0</span>;
+  <span class="keyword">while</span> (<span class="literal">true</span>) {
+    num += <span class="number">1</span>;
+    (<span class="keyword">yield</span> num * num);
+  }
+};
+
+window.ps || (window.ps = perfectSquares());
+</code></pre><script>window.example32 = "perfectSquares = ->\n  num = 0\n  loop\n    num += 1\n    yield num * num\n  return\n\nwindow.ps or= perfectSquares()"</script><div class='minibutton load' onclick='javascript: loadConsole(example32);'>load</div><div class='minibutton ok' onclick='javascript: var perfectSquares;
+
+perfectSquares = function*() {
+  var num;
+  num = 0;
+  while (true) {
+    num += 1;
+    (yield num * num);
+  }
+};
+
+window.ps || (window.ps = perfectSquares());
+;alert(ps.next().value);'>run: ps.next().value</div><br class='clear' /></div>
 
     <p>
       <span id="embedded" class="bookmark"></span>
@@ -1852,7 +1891,7 @@ Account = <span class="function"><span class="keyword">function</span><span clas
 hi = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
   <span class="keyword">return</span> [document.title, <span class="string">"Hello JavaScript"</span>].join(<span class="string">": "</span>);
 };
-</code></pre><script>window.example32 = "hi = `function() {\n  return [document.title, \"Hello JavaScript\"].join(\": \");\n}`\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example32);'>load</div><div class='minibutton ok' onclick='javascript: var hi;
+</code></pre><script>window.example33 = "hi = `function() {\n  return [document.title, \"Hello JavaScript\"].join(\": \");\n}`\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example33);'>load</div><div class='minibutton ok' onclick='javascript: var hi;
 
 hi = function() {
   return [document.title, "Hello JavaScript"].join(": ");
@@ -1906,7 +1945,7 @@ hi = function() {
   <span class="keyword">default</span>:
     go(work);
 }
-</code></pre><script>window.example33 = "switch day\n  when \"Mon\" then go work\n  when \"Tue\" then go relax\n  when \"Thu\" then go iceFishing\n  when \"Fri\", \"Sat\"\n    if day is bingoDay\n      go bingo\n      go dancing\n  when \"Sun\" then go church\n  else go work"</script><div class='minibutton load' onclick='javascript: loadConsole(example33);'>load</div><br class='clear' /></div>
+</code></pre><script>window.example34 = "switch day\n  when \"Mon\" then go work\n  when \"Tue\" then go relax\n  when \"Thu\" then go iceFishing\n  when \"Fri\", \"Sat\"\n    if day is bingoDay\n      go bingo\n      go dancing\n  when \"Sun\" then go church\n  else go work"</script><div class='minibutton load' onclick='javascript: loadConsole(example34);'>load</div><br class='clear' /></div>
 
     <p>
       Switch statements can also be used without a control expression, turning them in to a cleaner alternative to if/else chains.
@@ -1937,7 +1976,7 @@ grade = (<span class="function"><span class="keyword">function</span><span class
       <span class="keyword">return</span> <span class="string">'A'</span>;
   }
 })();
-</code></pre><script>window.example34 = "score = 76\ngrade = switch\n  when score < 60 then 'F'\n  when score < 70 then 'D'\n  when score < 80 then 'C'\n  when score < 90 then 'B'\n  else 'A'\n# grade == 'C'\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example34);'>load</div><br class='clear' /></div>
+</code></pre><script>window.example35 = "score = 76\ngrade = switch\n  when score < 60 then 'F'\n  when score < 70 then 'D'\n  when score < 80 then 'C'\n  when score < 90 then 'B'\n  else 'A'\n# grade == 'C'\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example35);'>load</div><br class='clear' /></div>
 
     <p>
       <span id="try" class="bookmark"></span>
@@ -1964,7 +2003,7 @@ grade = (<span class="function"><span class="keyword">function</span><span class
 } <span class="keyword">finally</span> {
   cleanUp();
 }
-</code></pre><script>window.example35 = "try\n  allHellBreaksLoose()\n  catsAndDogsLivingTogether()\ncatch error\n  print error\nfinally\n  cleanUp()\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example35);'>load</div><br class='clear' /></div>
+</code></pre><script>window.example36 = "try\n  allHellBreaksLoose()\n  catsAndDogsLivingTogether()\ncatch error\n  print error\nfinally\n  cleanUp()\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example36);'>load</div><br class='clear' /></div>
 
     <p>
       <span id="comparisons" class="bookmark"></span>
@@ -1984,7 +2023,7 @@ healthy = <span class="number">200</span> &gt; cholesterol &gt; <span class="num
 cholesterol = <span class="number">127</span>;
 
 healthy = (<span class="number">200</span> &gt; cholesterol &amp;&amp; cholesterol &gt; <span class="number">60</span>);
-</code></pre><script>window.example36 = "cholesterol = 127\n\nhealthy = 200 > cholesterol > 60\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example36);'>load</div><div class='minibutton ok' onclick='javascript: var cholesterol, healthy;
+</code></pre><script>window.example37 = "cholesterol = 127\n\nhealthy = 200 > cholesterol > 60\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example37);'>load</div><div class='minibutton ok' onclick='javascript: var cholesterol, healthy;
 
 cholesterol = 127;
 
@@ -2013,14 +2052,14 @@ author = <span class="string">"Wittgenstein"</span>;
 
 quote = <span class="string">"A picture is a fact. -- "</span> + author;
 
-sentence = <span class="string">""</span> + (<span class="number">22</span> / <span class="number">7</span>) + <span class="string">" is a decent approximation of π"</span>;
-</code></pre><script>window.example37 = "author = \"Wittgenstein\"\nquote  = \"A picture is a fact. -- #{ author }\"\n\nsentence = \"#{ 22 / 7 } is a decent approximation of π\"\n\n\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example37);'>load</div><div class='minibutton ok' onclick='javascript: var author, quote, sentence;
+sentence = (<span class="number">22</span> / <span class="number">7</span>) + <span class="string">" is a decent approximation of π"</span>;
+</code></pre><script>window.example38 = "author = \"Wittgenstein\"\nquote  = \"A picture is a fact. -- #{ author }\"\n\nsentence = \"#{ 22 / 7 } is a decent approximation of π\"\n\n\n\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example38);'>load</div><div class='minibutton ok' onclick='javascript: var author, quote, sentence;
 
 author = "Wittgenstein";
 
 quote = "A picture is a fact. -- " + author;
 
-sentence = "" + (22 / 7) + " is a decent approximation of π";
+sentence = (22 / 7) + " is a decent approximation of π";
 ;alert(sentence);'>run: sentence</div><br class='clear' /></div>
     <p>
       Multiline strings are allowed in CoffeeScript. Lines are joined by a single space unless they end with a backslash. Indentation is ignored.
@@ -2034,7 +2073,7 @@ sentence = "" + (22 / 7) + " is a decent approximation of π";
 </code></pre><pre><code><span class="keyword">var</span> mobyDick;
 
 mobyDick = <span class="string">"Call me Ishmael. Some years ago -- never mind how long precisely -- having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world..."</span>;
-</code></pre><script>window.example38 = "mobyDick = \"Call me Ishmael. Some years ago --\n  never mind how long precisely -- having little\n  or no money in my purse, and nothing particular\n  to interest me on shore, I thought I would sail\n  about a little and see the watery part of the\n  world...\"\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example38);'>load</div><div class='minibutton ok' onclick='javascript: var mobyDick;
+</code></pre><script>window.example39 = "mobyDick = \"Call me Ishmael. Some years ago --\n  never mind how long precisely -- having little\n  or no money in my purse, and nothing particular\n  to interest me on shore, I thought I would sail\n  about a little and see the watery part of the\n  world...\"\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example39);'>load</div><div class='minibutton ok' onclick='javascript: var mobyDick;
 
 mobyDick = "Call me Ishmael. Some years ago -- never mind how long precisely -- having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world...";
 ;alert(mobyDick);'>run: mobyDick</div><br class='clear' /></div>
@@ -2053,7 +2092,7 @@ mobyDick = "Call me Ishmael. Some years ago -- never mind how long precisely -- 
 </code></pre><pre><code><span class="keyword">var</span> html;
 
 html = <span class="string">"&lt;strong&gt;\n  cup of coffeescript\n&lt;/strong&gt;"</span>;
-</code></pre><script>window.example39 = "html = \"\"\"\n       <strong>\n         cup of coffeescript\n       </strong>\n       \"\"\"\n       \n"</script><div class='minibutton load' onclick='javascript: loadConsole(example39);'>load</div><div class='minibutton ok' onclick='javascript: var html;
+</code></pre><script>window.example40 = "html = \"\"\"\n       <strong>\n         cup of coffeescript\n       </strong>\n       \"\"\"\n       \n"</script><div class='minibutton load' onclick='javascript: loadConsole(example40);'>load</div><div class='minibutton ok' onclick='javascript: var html;
 
 html = "<strong>\n  cup of coffeescript\n</strong>";
 ;alert(html);'>run: html</div><br class='clear' /></div>
@@ -2078,7 +2117,7 @@ SkinnyMochaHalfCaffScript Compiler v1.0
 Released under the MIT License
  */</span>
 
-</code></pre><script>window.example40 = "###\nSkinnyMochaHalfCaffScript Compiler v1.0\nReleased under the MIT License\n###\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example40);'>load</div><br class='clear' /></div>
+</code></pre><script>window.example41 = "###\nSkinnyMochaHalfCaffScript Compiler v1.0\nReleased under the MIT License\n###\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example41);'>load</div><br class='clear' /></div>
 
     <p>
       <span id="regexes" class="bookmark"></span>
@@ -2103,7 +2142,7 @@ Released under the MIT License
 </code></pre><pre><code><span class="keyword">var</span> OPERATOR;
 
 OPERATOR = <span class="regexp">/^(?:[-=]&gt;|[-+*\/%&lt;&gt;&amp;|^!?=]=|&gt;&gt;&gt;=?|([-+:])\1|([&amp;|&lt;&gt;])\2=?|\?\.|\.{2,3})/</span>;
-</code></pre><script>window.example41 = "OPERATOR = /// ^ (\n  ?: [-=]>             # 函数\n   | [-+*/%<>&|^!?=]=  # 复合赋值 / 比较\n   | >>>=?             # 补 0 右移\n   | ([-+:])\\1         # 双写\n   | ([&|<>])\\2=?      # 逻辑 / 移位\n   | \\?\\.              # soak 访问\n   | \\.{2,3}           # 范围或者 splat\n) ///\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example41);'>load</div><br class='clear' /></div>
+</code></pre><script>window.example42 = "OPERATOR = /// ^ (\n  ?: [-=]>             # 函数\n   | [-+*/%<>&|^!?=]=  # 复合赋值 / 比较\n   | >>>=?             # 补 0 右移\n   | ([-+:])\\1         # 双写\n   | ([&|<>])\\2=?      # 逻辑 / 移位\n   | \\?\\.              # soak access\n   | \\.{2,3}           # 范围或者 splat\n) ///\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example42);'>load</div><br class='clear' /></div>
 
 
     <h2>
@@ -2148,9 +2187,9 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
   <span class="built_in">require</span>(<span class="string">'jison'</span>);
   code = <span class="built_in">require</span>(<span class="string">'./lib/grammar'</span>).parser.generate();
   dir = options.output || <span class="string">'lib'</span>;
-  <span class="keyword">return</span> fs.writeFile(<span class="string">""</span> + dir + <span class="string">"/parser.js"</span>, code);
+  <span class="keyword">return</span> fs.writeFile(dir + <span class="string">"/parser.js"</span>, code);
 });
-</code></pre><script>window.example42 = "fs = require 'fs'\n\noption '-o', '--output [DIR]', 'directory for compiled code'\n\ntask 'build:parser', 'rebuild the Jison parser', (options) ->\n  require 'jison'\n  code = require('./lib/grammar').parser.generate()\n  dir  = options.output or 'lib'\n  fs.writeFile \"#{dir}/parser.js\", code"</script><div class='minibutton load' onclick='javascript: loadConsole(example42);'>load</div><br class='clear' /></div>
+</code></pre><script>window.example43 = "fs = require 'fs'\n\noption '-o', '--output [DIR]', 'directory for compiled code'\n\ntask 'build:parser', 'rebuild the Jison parser', (options) ->\n  require 'jison'\n  code = require('./lib/grammar').parser.generate()\n  dir  = options.output or 'lib'\n  fs.writeFile \"#{dir}/parser.js\", code"</script><div class='minibutton load' onclick='javascript: loadConsole(example43);'>load</div><br class='clear' /></div>
     <p>
       If you need to invoke one task before another &mdash; for example, running
       <tt>build</tt> before <tt>test</tt>, you can use the <tt>invoke</tt> function:
@@ -2248,7 +2287,7 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
         size (Rails, Node).
       </li>
       <li>
-        <a href="http://ristrettolo.gy">CoffeeScript Ristretto</a>
+        <a href="https://leanpub.com/coffeescript-ristretto/read">CoffeeScript Ristretto</a>
         is a deep dive into CoffeeScript's semantics from simple functions up through
         closures, higher-order functions, objects, classes, combinators, and decorators.
         By <a href="http://braythwayt.com/">Reg Braithwaite</a>.
@@ -2260,13 +2299,17 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
       </li>
       <li>
         <a href="http://www.packtpub.com/coffeescript-application-development/book">CoffeeScript Application Development</a>
-        is a new book from Packt Publishing that introduces CoffeeScript while
+        from Packt, introduces CoffeeScript while
         walking through the process of building a demonstration web application.
       </li>
       <li>
         <a href="http://www.manning.com/lee/">CoffeeScript in Action</a>
-        is a new book from Manning Publications that covers CoffeeScript syntax, composition techniques
+        from Manning Publications, covers CoffeeScript syntax, composition techniques
         and application development.
+      </li>
+      <li>
+        <a href="http://www.dpunkt.de/buecher/4021/coffeescript.html">CoffeeScript: Die Alternative zu JavaScript</a>
+        from dpunkt.verlag, is the first CoffeeScript book in Deutsch.
       </li>
     </ul>
 
@@ -2298,7 +2341,7 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </h2>
 
     <p>
-      The <a href="https://github.com/languages/coffeescript">best list of
+      The <a href="https://github.com/trending?l=coffeescript&amp;since=monthly">best list of
       open-source CoffeeScript examples</a> can be found on GitHub. But just
       to throw out few more:
     </p>
@@ -2330,8 +2373,8 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
         the Bolo tank game for modern browsers.
       </li>
       <li>
-        <b>josh</b>'s <a href="http://josh.github.com/nack/">nack</a>, a Node.js-powered
-        <a href="http://rack.rubyforge.org/">Rack</a> server.
+        <b>github</b>'s <a href="https://atom.io/">Atom</a>,
+        a hackable text editor built on web technologies.
       </li>
     </ul>
 
@@ -2341,7 +2384,7 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
 
     <ul>
       <li>
-        <a href="http://github.com/jashkenas/coffee-script/">Source Code</a><br />
+        <a href="http://github.com/jashkenas/coffeescript/">Source Code</a><br />
         Use <tt>bin/coffee</tt> to test your changes,<br />
         <tt>bin/cake test</tt> to run the test suite,<br />
         <tt>bin/cake build</tt> to rebuild the CoffeeScript compiler, and <br />
@@ -2354,7 +2397,7 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
         they pass, there's a good chance you've made a successful change.
       </li>
       <li>
-        <a href="http://github.com/jashkenas/coffee-script/issues">CoffeeScript Issues</a><br />
+        <a href="http://github.com/jashkenas/coffeescript/issues">CoffeeScript Issues</a><br />
         Bug reports, feature proposals, and ideas for changes to the language belong here.
       </li>
       <li>
@@ -2362,15 +2405,15 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
         If you'd like to ask a question, the mailing list is a good place to get help.
       </li>
       <li>
-        <a href="http://github.com/jashkenas/coffee-script/wiki">The CoffeeScript Wiki</a><br />
+        <a href="http://github.com/jashkenas/coffeescript/wiki">The CoffeeScript Wiki</a><br />
         If you've ever learned a neat CoffeeScript tip or trick, or ran into a gotcha &mdash; share it on the wiki.
         The wiki also serves as a directory of handy
-        <a href="http://github.com/jashkenas/coffee-script/wiki/Text-editor-plugins">text editor extensions</a>,
-        <a href="http://github.com/jashkenas/coffee-script/wiki/Web-framework-plugins">web framework plugins</a>,
-        and general <a href="http://github.com/jashkenas/coffee-script/wiki/Build-tools">CoffeeScript build tools</a>.
+        <a href="http://github.com/jashkenas/coffeescript/wiki/Text-editor-plugins">text editor extensions</a>,
+        <a href="http://github.com/jashkenas/coffeescript/wiki/Web-framework-plugins">web framework plugins</a>,
+        and general <a href="http://github.com/jashkenas/coffeescript/wiki/Build-tools">CoffeeScript build tools</a>.
       </li>
       <li>
-        <a href="http://github.com/jashkenas/coffee-script/wiki/FAQ">The FAQ</a><br />
+        <a href="http://github.com/jashkenas/coffeescript/wiki/FAQ">The FAQ</a><br />
         Perhaps your CoffeeScript-related question has been asked before. Check the FAQ first.
       </li>
       <li>
@@ -2381,7 +2424,7 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
         point for converting simple scripts.
       </li>
       <li>
-        <a href="https://github.com/jashkenas/coffee-script/downloads">High-Rez Logo</a><br />
+        <a href="https://github.com/jashkenas/coffeescript/downloads">High-Rez Logo</a><br />
         The CoffeeScript logo is available in Illustrator, EPS and PSD formats, for use
         in presentations.
       </li>
@@ -2408,10 +2451,110 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </h2>
 
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.7.0...1.7.1">1.7.1</a>
-        <span class="timestamp"> &ndash; <small>January 29, 2014</small></span>
-      </b>
+      <div class="anchor" id="1.9.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.9.0...1.9.1">1.9.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2015-02-18">February 18, 2015</time></span>
+</b>
+      <ul>
+        <li>
+          Interpolation now works in object literal keys (again). You can use this to 
+          dynamically name properties.
+        </li>
+        <li>
+          Internal compiler variable names no longer start with underscores. This makes
+          the generated JavaScript a bit prettier, and also fixes an issue with
+          the completely broken and ungodly way that AngularJS "parses" function
+          arguments.
+        </li>
+        <li>
+          Fixed a few <tt>yield</tt>-related edge cases with <tt>yield return</tt>
+          and <tt>yield throw</tt>.
+        </li>
+        <li>
+          Minor bug fixes and various improvements to compiler error messages.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      <div class="anchor" id="1.9.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.8.0...1.9.0">1.9.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2015-01-29">January 29, 2015</time></span>
+</b>
+      <ul>
+        <li>
+          CoffeeScript now supports ES6 generators. A generator is simply a function
+          that <tt>yield</tt>s. 
+        </li>
+        <li>
+          More robust parsing and improved error messages for strings and regexes — 
+          especially with respect to interpolation.
+        </li>
+        <li>
+          Changed strategy for the generation of internal compiler variable names.
+          Note that this means that <tt>@example</tt> function parameters are no longer
+          available as naked <tt>example</tt> variables within the function body.
+        </li>
+        <li>
+          Fixed REPL compatibility with latest versions of Node and Io.js.
+        </li>
+        <li>
+          Various minor bug fixes.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      <div class="anchor" id="1.8.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.7.1...1.8.0">1.8.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2014-08-26">August 26, 2014</time></span>
+</b>
+      <ul>
+        <li>
+          The <tt>--join</tt> option of the CLI is now deprecated.
+        </li>
+        <li>
+          Source maps now use <tt>.js.map</tt> as file extension, instead of just <tt>.map</tt>.
+        </li>
+        <li>
+          The CLI now exits with the exit code 1 when it fails to write a file to disk.
+        </li>
+        <li>
+          The compiler no longer crashes on unterminated, single-quoted strings.
+        </li>
+        <li>
+          Fixed location data for string interpolations, which made source maps out of sync.
+        </li>
+        <li>
+          The error marker in error messages is now correctly positioned if the code is indented with tabs.
+        </li>
+        <li>
+          Fixed a slight formatting error in CoffeeScript’s source map-patched stack traces.
+        </li>
+        <li>
+          The <tt>%%</tt> operator now coerces its right operand only once.
+        </li>
+        <li>
+          It is now possible to require CoffeeScript files from Cakefiles without having to register the compiler first.
+        </li>
+        <li>
+          The CoffeeScript REPL is now exported and can be required using <tt>require 'coffee-script/repl'</tt>.
+        </li>
+        <li>
+          Fixes for the REPL in Node 0.11.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      <div class="anchor" id="1.7.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.7.0...1.7.1">1.7.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2014-01-29">January 29, 2014</time></span>
+</b>
       <ul>
         <li>
           Fixed a typo that broke node module lookup when running a script directly with the <tt>coffee</tt> binary.
@@ -2419,10 +2562,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
       </ul>
     </p>
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.6.3...1.7.0">1.7.0</a>
-        <span class="timestamp"> &ndash; <small>January 28, 2014</small></span>
-      </b>
+      <div class="anchor" id="1.7.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.6.3...1.7.0">1.7.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2014-01-28">January 28, 2014</time></span>
+</b>
       <ul>
         <li>
           When requiring CoffeeScript files in Node you must now explicitly register the compiler. This can be done with <tt>require 'coffee-script/register'</tt> or <tt>CoffeeScript.register()</tt>. Also for configuration such as Mocha's, use <b>coffee-script/register</b>.
@@ -2445,7 +2589,7 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
 </code></pre><pre><code>$(<span class="string">'body'</span>).click(<span class="function"><span class="keyword">function</span><span class="params">(e)</span> {</span>
   <span class="keyword">return</span> $(<span class="string">'.box'</span>).fadeIn(<span class="string">'fast'</span>).addClass(<span class="string">'.active'</span>);
 }).css(<span class="string">'background'</span>, <span class="string">'white'</span>);
-</code></pre><script>window.example43 = "$ 'body'\n.click (e) ->\n  $ '.box'\n  .fadeIn 'fast'\n  .addClass '.active'\n.css 'background', 'white'\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example43);'>load</div><br class='clear' /></div>
+</code></pre><script>window.example44 = "$ 'body'\n.click (e) ->\n  $ '.box'\n  .fadeIn 'fast'\n  .addClass '.active'\n.css 'background', 'white'\n\n\n"</script><div class='minibutton load' onclick='javascript: loadConsole(example44);'>load</div><br class='clear' /></div>
       <ul>
         <li>
           Added <tt>**</tt>, <tt>//</tt> and <tt>%%</tt> operators and <tt>...</tt> expansion in parameter lists and destructuring expressions.
@@ -2471,10 +2615,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
       </ul>
     </p>
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.6.2...1.6.3">1.6.3</a>
-        <span class="timestamp"> &ndash; <small>June 2, 2013</small></span>
-      </b>
+      <div class="anchor" id="1.6.3"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.6.2...1.6.3">1.6.3</a>
+  <span class="timestamp"> &mdash; <time datetime="2013-06-02">June 2, 2013</time></span>
+</b>
       <ul>
         <li>
           The CoffeeScript REPL now remembers your history between sessions.
@@ -2500,10 +2645,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.6.1...1.6.2">1.6.2</a>
-        <span class="timestamp"> &ndash; <small>March 18, 2013</small></span>
-      </b>
+      <div class="anchor" id="1.6.2"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.6.1...1.6.2">1.6.2</a>
+  <span class="timestamp"> &mdash; <time datetime="2013-03-18">March 18, 2013</time></span>
+</b>
       <ul>
         <li>
           Source maps have been used to provide automatic line-mapping when
@@ -2529,10 +2675,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.5.0...1.6.1">1.6.1</a>
-        <span class="timestamp"> &ndash; <small>March 5, 2013</small></span>
-      </b>
+      <div class="anchor" id="1.6.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.5.0...1.6.1">1.6.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2013-03-05">March 5, 2013</time></span>
+</b>
       <ul>
         <li>
           First release of <a href="#source-maps">source maps</a>. Pass the
@@ -2558,10 +2705,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.4.0...1.5.0">1.5.0</a>
-        <span class="timestamp"> &ndash; <small>Feb 25, 2013</small></span>
-      </b>
+      <div class="anchor" id="1.5.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.4.0...1.5.0">1.5.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2013-02-25">February 25, 2013</time></span>
+</b>
       <ul>
         <li>
           First release of <a href="#literate">Literate CoffeeScript</a>.
@@ -2586,10 +2734,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.3.3...1.4.0">1.4.0</a>
-        <span class="timestamp"> &ndash; <small>Oct 23, 2012</small></span>
-      </b>
+      <div class="anchor" id="1.4.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.3.3...1.4.0">1.4.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2012-10-23">October 23, 2012</time></span>
+</b>
       <ul>
         <li>
           The CoffeeScript compiler now strips Microsoft's UTF-8 BOM if it
@@ -2607,15 +2756,16 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.3.1...1.3.3">1.3.3</a>
-        <span class="timestamp"> &ndash; <small>May 15, 2012</small></span>
-      </b>
+      <div class="anchor" id="1.3.3"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.3.1...1.3.3">1.3.3</a>
+  <span class="timestamp"> &mdash; <time datetime="2012-05-15">May 15, 2012</time></span>
+</b>
       <ul>
         <li>
           Due to the new semantics of JavaScript's strict mode, CoffeeScript no
           longer guarantees that constructor functions have names in all runtimes.
-          See <a href="https://github.com/jashkenas/coffee-script/issues/2052">#2052</a>
+          See <a href="https://github.com/jashkenas/coffeescript/issues/2052">#2052</a>
           for discussion.
         </li>
         <li>
@@ -2636,10 +2786,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.2.0...1.3.1">1.3.1</a>
-        <span class="timestamp"> &ndash; <small>April 10, 2012</small></span>
-      </b>
+      <div class="anchor" id="1.3.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.2.0...1.3.1">1.3.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2012-04-10">April 10, 2012</time></span>
+</b>
       <ul>
         <li>
           CoffeeScript now enforces all of JavaScript's <b>Strict Mode</b> early syntax
@@ -2648,7 +2799,7 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
           a function definition, deleting naked variables, setting the value of
           <tt>eval</tt> or <tt>arguments</tt>, and more.
           See a full discussion at
-          <a href="https://github.com/jashkenas/coffee-script/issues/1547">#1547</a>.
+          <a href="https://github.com/jashkenas/coffeescript/issues/1547">#1547</a>.
         </li>
         <li>
           The REPL now has a handy new multi-line mode for entering large
@@ -2677,7 +2828,7 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
           effectively creating a shallow copy of the list.
         </li>
         <li>
-          Additional tweaks and improvments to <tt>coffee --watch</tt> under
+          Additional tweaks and improvements to <tt>coffee --watch</tt> under
           Node's "new" file watching API. Watch will now beep by default
           if you introduce a syntax error into a watched script. We also now
           ignore hidden directories by default when watching recursively.
@@ -2686,10 +2837,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.1.3...1.2.0">1.2.0</a>
-        <span class="timestamp"> &ndash; <small>Dec. 18, 2011</small></span>
-      </b>
+      <div class="anchor" id="1.2.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.1.3...1.2.0">1.2.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2011-12-18">December 18, 2011</time></span>
+</b>
       <ul>
         <li>
           Multiple improvements to <tt>coffee --watch</tt> and <tt>--join</tt>.
@@ -2713,10 +2865,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.1.2...1.1.3">1.1.3</a>
-        <span class="timestamp"> &ndash; <small>Nov. 8, 2011</small></span>
-      </b>
+      <div class="anchor" id="1.1.3"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.1.2...1.1.3">1.1.3</a>
+  <span class="timestamp"> &mdash; <time datetime="2011-11-08">November 8, 2011</time></span>
+</b>
       <ul>
         <li>
           Ahh, whitespace. CoffeeScript's compiled JS now tries to space things
@@ -2756,10 +2909,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">
-        <a href="https://github.com/jashkenas/coffee-script/compare/1.1.1...1.1.2">1.1.2</a>
-        <span class="timestamp"> &ndash; <small>August 4, 2011</small></span>
-      </b>
+      <div class="anchor" id="1.1.2"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.1.1...1.1.2">1.1.2</a>
+  <span class="timestamp"> &mdash; <time datetime="2011-08-04">August 4, 2011</time></span>
+</b>
       Fixes for block comment formatting, <tt>?=</tt> compilation, implicit calls
       against control structures, implicit invocation of a try/catch block,
       variadic arguments leaking from local scope, line numbers in syntax errors
@@ -2770,17 +2924,21 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">1.1.1
-        <span class="timestamp"> &ndash; <small>May 10, 2011</small></span>
-      </b>
+      <div class="anchor" id="1.1.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.1.0...1.1.1">1.1.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2011-05-10">May 10, 2011</time></span>
+</b>
       Bugfix release for classes with external constructor functions, see
       issue #1182.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">1.1.0
-        <span class="timestamp"> &ndash; <small>May 1, 2011</small></span>
-      </b>
+      <div class="anchor" id="1.1.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.0.1...1.1.0">1.1.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2011-05-01">May 1, 2011</time></span>
+</b>
       When running via the <tt>coffee</tt> executable, <tt>process.argv</tt> and
       friends now report <tt>coffee</tt> instead of <tt>node</tt>.
       Better compatibility with <b>Node.js 0.4.x</b> module lookup changes.
@@ -2796,9 +2954,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">1.0.1
-        <span class="timestamp"> &ndash; <small>Jan 31, 2011</small></span>
-      </b>
+      <div class="anchor" id="1.0.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/1.0.0...1.0.1">1.0.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2011-01-31">January 31, 2011</time></span>
+</b>
       Fixed a lexer bug with Unicode identifiers. Updated REPL for compatibility
       with Node.js 0.3.7. Fixed requiring relative paths in the REPL. Trailing
       <tt>return</tt> and <tt>return undefined</tt> are now optimized away.
@@ -2809,9 +2969,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">1.0.0
-        <span class="timestamp"> &ndash; <small>Dec 24, 2010</small></span>
-      </b>
+      <div class="anchor" id="1.0.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.9.6...1.0.0">1.0.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-12-24">December 24, 2010</time></span>
+</b>
       CoffeeScript loops no longer try to preserve block scope when functions
       are being generated within the loop body. Instead, you can use the
       <tt>do</tt> keyword to create a convenient closure wrapper.
@@ -2823,9 +2985,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.9.6
-        <span class="timestamp"> &ndash; <small>Dec 6, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.9.6"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.9.5...0.9.6">0.9.6</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-12-06">December 6, 2010</time></span>
+</b>
       The REPL now properly formats stacktraces, and stays alive through
       asynchronous exceptions. Using <tt>--watch</tt> now prints timestamps as
       files are compiled. Fixed some accidentally-leaking variables within
@@ -2837,9 +3001,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.9.5
-        <span class="timestamp"> &ndash; <small>Nov 21, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.9.5"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.9.4...0.9.5">0.9.5</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-11-21">November 21, 2010</time></span>
+</b>
       0.9.5 should be considered the first release candidate for CoffeeScript 1.0.
       There have been a large number of internal changes since the previous release,
       many contributed from <b>satyr</b>'s <a href="http://github.com/satyr/coco">Coco</a>
@@ -2853,9 +3019,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.9.4
-        <span class="timestamp"> &ndash; <small>Sep 21, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.9.4"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.9.3...0.9.4">0.9.4</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-09-21">September 21, 2010</time></span>
+</b>
       CoffeeScript now uses appropriately-named temporary variables, and recycles
       their references after use. Added <tt>require.extensions</tt> support for
       <b>Node.js 0.3</b>. Loading CoffeeScript in the browser now adds just a
@@ -2864,9 +3032,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.9.3
-        <span class="timestamp"> &ndash; <small>Sep 16, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.9.3"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.9.2...0.9.3">0.9.3</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-09-16">September 16, 2010</time></span>
+</b>
       CoffeeScript <tt>switch</tt> statements now compile into JS <tt>switch</tt>
       statements &mdash; they previously compiled into <tt>if/else</tt> chains
       for JavaScript 1.3 compatibility.
@@ -2875,9 +3045,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.9.2
-        <span class="timestamp"> &ndash; <small>Aug 23, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.9.2"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.9.1...0.9.2">0.9.2</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-08-23">August 23, 2010</time></span>
+</b>
       Specifying the start and end of a range literal is now optional, eg. <tt>array[3..]</tt>.
       You can now say <tt>a not instanceof b</tt>.
       Fixed important bugs with nested significant and non-significant indentation (Issue #637).
@@ -2891,9 +3063,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.9.1
-        <span class="timestamp"> &ndash; <small>Aug 11, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.9.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.9.0...0.9.1">0.9.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-08-11">August 11, 2010</time></span>
+</b>
       Bugfix release for <b>0.9.1</b>. Greatly improves the handling of mixed
       implicit objects, implicit function calls, and implicit indentation.
       String and regex interpolation is now strictly <tt>#{ ... }</tt> (Ruby style).
@@ -2902,9 +3076,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.9.0
-        <span class="timestamp"> &ndash; <small>Aug 4, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.9.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.7.2...0.9.0">0.9.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-08-04">August 4, 2010</time></span>
+</b>
       The CoffeeScript <b>0.9</b> series is considered to be a release candidate
       for <b>1.0</b>; let's give her a shakedown cruise. <b>0.9.0</b> introduces a massive
       backwards-incompatible change: Assignment now uses <tt>=</tt>, and object
@@ -2928,17 +3104,21 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.7.2
-        <span class="timestamp"> &ndash; <small>Jul 12, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.7.2"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.7.1...0.7.2">0.7.2</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-07-12">July 12, 2010</time></span>
+</b>
       Quick bugfix (right after 0.7.1) for a problem that prevented <tt>coffee</tt>
       command-line options from being parsed in some circumstances.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.7.1
-        <span class="timestamp"> &ndash; <small>Jul 11, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.7.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.7.0...0.7.1">0.7.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-07-11">July 11, 2010</time></span>
+</b>
       Block-style comments are now passed through and printed as JavaScript block
       comments -- making them useful for licenses and copyright headers. Better
       support for running coffee scripts standalone via hashbangs.
@@ -2946,9 +3126,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.7.0
-        <span class="timestamp"> &ndash; <small>Jun 28, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.7.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.6.2...0.7.0">0.7.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-06-28">June 28, 2010</time></span>
+</b>
       Official CoffeeScript variable style is now camelCase, as in JavaScript.
       Reserved words are now allowed as object keys, and will be quoted for you.
       Range comprehensions now generate cleaner code, but you have to specify <tt>by -1</tt>
@@ -2965,9 +3147,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.6.2
-        <span class="timestamp"> &ndash; <small>May 15, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.6.2"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.6.1...0.6.2">0.6.2</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-05-15">May 15, 2010</time></span>
+</b>
       The <tt>coffee</tt> command will now preserve directory structure when
       compiling a directory full of scripts. Fixed two omissions that were preventing
       the CoffeeScript compiler from running live within Internet Explorer.
@@ -2982,26 +3166,32 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.6.1
-        <span class="timestamp"> &ndash; <small>Apr 12, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.6.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.6.0...0.6.1">0.6.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-04-12">April 12, 2010</time></span>
+</b>
       Upgraded CoffeeScript for compatibility with the new Node.js <b>v0.1.90</b>
       series.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.6.0
-        <span class="timestamp"> &ndash; <small>Apr 3, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.6.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.5.6...0.6.0">0.6.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-04-03">April 3, 2010</time></span>
+</b>
       Trailing commas are now allowed, a-la Python. Static
       properties may be assigned directly within class definitions,
       using <tt>@property</tt> notation.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.5.6
-        <span class="timestamp"> &ndash; <small>Mar 23, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.5.6"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.5.5...0.5.6">0.5.6</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-03-23">March 23, 2010</time></span>
+</b>
       Interpolation can now be used within regular expressions and heredocs, as well as
       strings. Added the <tt>&lt;-</tt> bind operator.
       Allowing assignment to half-expressions instead of special <tt>||=</tt>-style
@@ -3012,9 +3202,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.5.5
-        <span class="timestamp"> &ndash; <small>Mar 8, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.5.5"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.5.4...0.5.5">0.5.5</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-03-08">March 8, 2010</time></span>
+</b>
       String interpolation, contributed by
       <a href="http://github.com/StanAngeloff">Stan Angeloff</a>.
       Since <tt>--run</tt> has been the default since <b>0.5.3</b>, updating
@@ -3023,18 +3215,22 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.5.4
-        <span class="timestamp"> &ndash; <small>Mar 3, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.5.4"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.5.3...0.5.4">0.5.4</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-03-03">March 3, 2010</time></span>
+</b>
       Bugfix that corrects the Node.js global constants <tt>__filename</tt> and
       <tt>__dirname</tt>. Tweaks for more flexible parsing of nested function
       literals and improperly-indented comments. Updates for the latest Node.js API.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.5.3
-        <span class="timestamp"> &ndash; <small>Feb 27, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.5.3"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.5.2...0.5.3">0.5.3</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-02-27">February 27, 2010</time></span>
+</b>
       CoffeeScript now has a syntax for defining classes. Many of the core
       components (Nodes, Lexer, Rewriter, Scope, Optparse) are using them.
       Cakefiles can use <tt>optparse.coffee</tt> to define options for tasks.
@@ -3044,9 +3240,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.5.2
-        <span class="timestamp"> &ndash; <small>Feb 25, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.5.2"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.5.1...0.5.2">0.5.2</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-02-25">February 25, 2010</time></span>
+</b>
       Added a compressed version of the compiler for inclusion in web pages as
       <br  /><tt>extras/coffee-script.js</tt>. It'll automatically run any script tags
       with type <tt>text/coffeescript</tt> for you. Added a <tt>--stdio</tt> option
@@ -3055,9 +3253,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
 
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.5.1
-        <span class="timestamp"> &ndash; <small>Feb 24, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.5.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.5.0...0.5.1">0.5.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-02-24">February 24, 2010</time></span>
+</b>
       Improvements to null soaking with the existential operator, including
       soaks on indexed properties. Added conditions to <tt>while</tt> loops,
       so you can use them as filters with <tt>when</tt>, in the same manner as
@@ -3065,27 +3265,33 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.5.0
-        <span class="timestamp"> &ndash; <small>Feb 21, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.5.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.3.2...0.5.0">0.5.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-02-21">February 21, 2010</time></span>
+</b>
       CoffeeScript 0.5.0 is a major release, While there are no language changes,
       the Ruby compiler has been removed in favor of a self-hosting
       compiler written in pure CoffeeScript.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.3.2
-        <span class="timestamp"> &ndash; <small>Feb 8, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.3.2"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.3.0...0.3.2">0.3.2</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-02-08">February 8, 2010</time></span>
+</b>
       <tt>@property</tt> is now a shorthand for <tt>this.property</tt>.<br />
       Switched the default JavaScript engine from Narwhal to Node.js. Pass
       the <tt>--narwhal</tt> flag if you'd like to continue using it.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.3.0
-        <span class="timestamp"> &ndash; <small>Jan 26, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.3.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.2.6...0.3.0">0.3.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-01-26">January 26, 2010</time></span>
+</b>
       CoffeeScript 0.3 includes major syntax changes:
       <br />
       The function symbol was changed to
@@ -3101,9 +3307,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.2.6
-        <span class="timestamp"> &ndash; <small>Jan 17, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.2.6"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.2.5...0.2.6">0.2.6</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-01-17">January 17, 2010</time></span>
+</b>
       Added Python-style chained comparisons, the conditional existence
       operator <tt>?=</tt>, and some examples from <i>Beautiful Code</i>.
       Bugfixes relating to statement-to-expression conversion, arguments-to-array
@@ -3111,9 +3319,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.2.5
-        <span class="timestamp"> &ndash; <small>Jan 13, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.2.5"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.2.4...0.2.5">0.2.5</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-01-13">January 13, 2010</time></span>
+</b>
       The conditions in switch statements can now take multiple values at once &mdash;
       If any of them are true, the case will run. Added the long arrow <tt>==></tt>,
       which defines and immediately binds a function to <tt>this</tt>. While loops can
@@ -3122,26 +3332,32 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.2.4
-        <span class="timestamp"> &ndash; <small>Jan 12, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.2.4"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.2.3...0.2.4">0.2.4</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-01-12">January 12, 2010</time></span>
+</b>
       Added ECMAScript Harmony style destructuring assignment, for dealing with
       extracting values from nested arrays and objects. Added indentation-sensitive
       heredocs for nicely formatted strings or chunks of code.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.2.3
-        <span class="timestamp"> &ndash; <small>Jan 11, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.2.3"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.2.2...0.2.3">0.2.3</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-01-11">January 11, 2010</time></span>
+</b>
       Axed the unsatisfactory <tt>ino</tt> keyword, replacing it with <tt>of</tt> for
       object comprehensions. They now look like: <tt>for prop, value of object</tt>.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.2.2
-        <span class="timestamp"> &ndash; <small>Jan 10, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.2.2"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.2.1...0.2.2">0.2.2</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-01-10">January 10, 2010</time></span>
+</b>
       When performing a comprehension over an object, use <tt>ino</tt>, instead
       of <tt>in</tt>, which helps us generate smaller, more efficient code at
       compile time.
@@ -3162,16 +3378,20 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.2.1
-        <span class="timestamp"> &ndash; <small>Jan 5, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.2.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.2.0...0.2.1">0.2.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-01-05">January 5, 2010</time></span>
+</b>
       Arguments objects are now converted into real arrays when referenced.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.2.0
-        <span class="timestamp"> &ndash; <small>Jan 5, 2010</small></span>
-      </b>
+      <div class="anchor" id="0.2.0"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.1.6...0.2.0">0.2.0</a>
+  <span class="timestamp"> &mdash; <time datetime="2010-01-05">January 5, 2010</time></span>
+</b>
       Major release. Significant whitespace. Better statement-to-expression
       conversion. Splats. Splice literals. Object comprehensions. Blocks.
       The existential operator. Many thanks to all the folks who posted issues,
@@ -3181,18 +3401,22 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.1.6
-        <span class="timestamp"> &ndash; <small>Dec 27, 2009</small></span>
-      </b>
+      <div class="anchor" id="0.1.6"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.1.5...0.1.6">0.1.6</a>
+  <span class="timestamp"> &mdash; <time datetime="2009-12-27">December 27, 2009</time></span>
+</b>
       Bugfix for running <tt>coffee --interactive</tt> and <tt>--run</tt>
       from outside of the CoffeeScript directory. Bugfix for nested
       function/if-statements.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.1.5
-        <span class="timestamp"> &ndash; <small>Dec 26, 2009</small></span>
-      </b>
+      <div class="anchor" id="0.1.5"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.1.4...0.1.5">0.1.5</a>
+  <span class="timestamp"> &mdash; <time datetime="2009-12-26">December 26, 2009</time></span>
+</b>
       Array slice literals and array comprehensions can now both take Ruby-style
       ranges to specify the start and end. JavaScript variable declaration is
       now pushed up to the top of the scope, making all assignment statements into
@@ -3201,9 +3425,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.1.4
-        <span class="timestamp"> &ndash; <small>Dec 25, 2009</small></span>
-      </b>
+      <div class="anchor" id="0.1.4"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.1.3...0.1.4">0.1.4</a>
+  <span class="timestamp"> &mdash; <time datetime="2009-12-25">December 25, 2009</time></span>
+</b>
       The official CoffeeScript extension is now <tt>.coffee</tt> instead of
       <tt>.cs</tt>, which properly belongs to
       <a href="http://en.wikipedia.org/wiki/C_Sharp_(programming_language)">C#</a>.
@@ -3215,9 +3441,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.1.3
-        <span class="timestamp"> &ndash; <small>Dec 25, 2009</small></span>
-      </b>
+      <div class="anchor" id="0.1.3"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.1.2...0.1.3">0.1.3</a>
+  <span class="timestamp"> &mdash; <time datetime="2009-12-25">December 25, 2009</time></span>
+</b>
       The <tt>coffee</tt> command now includes <tt>--interactive</tt>,
       which launches an interactive CoffeeScript session, and <tt>--run</tt>,
       which directly compiles and executes a script. Both options depend on a
@@ -3231,9 +3459,11 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.1.2
-        <span class="timestamp"> &ndash; <small>Dec 24, 2009</small></span>
-      </b>
+      <div class="anchor" id="0.1.2"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.1.1...0.1.2">0.1.2</a>
+  <span class="timestamp"> &mdash; <time datetime="2009-12-24">December 24, 2009</time></span>
+</b>
       Fixed a bug with calling <tt>super()</tt> through more than one level of
       inheritance, with the re-addition of the <tt>extends</tt> keyword.
       Added experimental <a href="http://narwhaljs.org/">Narwhal</a>
@@ -3245,16 +3475,20 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.1.1
-        <span class="timestamp"> &ndash; <small>Dec 24, 2009</small></span>
-      </b>
+      <div class="anchor" id="0.1.1"></div>
+<b class="header">
+  <a href="https://github.com/jashkenas/coffeescript/compare/0.1.0...0.1.1">0.1.1</a>
+  <span class="timestamp"> &mdash; <time datetime="2009-12-24">December 24, 2009</time></span>
+</b>
       Added <tt>instanceof</tt> and <tt>typeof</tt> as operators.
     </p>
 
     <p>
-      <b class="header" style="margin-top: 20px;">0.1.0
-        <span class="timestamp"> &ndash; <small>Dec 24, 2009</small></span>
-      </b>
+      <div class="anchor" id="0.1.0"></div>
+<b class="header">
+  0.1.0
+  <span class="timestamp"> &mdash; <time datetime="2009-12-24">December 24, 2009</time></span>
+</b>
       Initial CoffeeScript release.
     </p>
 
@@ -3266,19 +3500,22 @@ task(<span class="string">'build:parser'</span>, <span class="string">'rebuild t
     # Set up the compilation function, to run when you stop typing.
     compileSource = ->
       source = $('#repl_source').val()
+      results = $('#repl_results')
       window.compiledJS = ''
       try
         window.compiledJS = CoffeeScript.compile source, bare: on
-        el = $('#repl_results')[0]
+        el = results[0]
         if el.innerText
           el.innerText = window.compiledJS
         else
-          $(el).text window.compiledJS
-        $('#error').hide()
+          results.text(window.compiledJS)
+        results.removeClass 'error'
+        $('.minibutton.run').removeClass 'error'
       catch {location, message}
         if location?
           message = "Error on line #{location.first_line + 1}: #{message}"
-        $('#error').text(message).show()
+        results.text(message).addClass 'error'
+        $('.minibutton.run').addClass 'error'
 
       # Update permalink
       $('#repl_permalink').attr 'href', "##{sourceFragment}#{encodeURIComponent source}"

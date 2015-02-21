@@ -16,83 +16,85 @@
           <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
           <a class="small" href="javascript:void(0);">+</a>
           <div id="jump_wrapper">
-          <div id="jump_page">
-            
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
               
-              <a class="source" href="browser.html">
-                browser.coffee
-              </a>
-            
+                
+                <a class="source" href="browser.html">
+                  browser.coffee
+                </a>
               
-              <a class="source" href="cake.html">
-                cake.coffee
-              </a>
-            
+                
+                <a class="source" href="cake.html">
+                  cake.coffee
+                </a>
               
-              <a class="source" href="coffee-script.html">
-                coffee-script.coffee
-              </a>
-            
+                
+                <a class="source" href="coffee-script.html">
+                  coffee-script.coffee
+                </a>
               
-              <a class="source" href="command.html">
-                command.coffee
-              </a>
-            
+                
+                <a class="source" href="command.html">
+                  command.coffee
+                </a>
               
-              <a class="source" href="grammar.html">
-                grammar.coffee
-              </a>
-            
+                
+                <a class="source" href="grammar.html">
+                  grammar.coffee
+                </a>
               
-              <a class="source" href="helpers.html">
-                helpers.coffee
-              </a>
-            
+                
+                <a class="source" href="helpers.html">
+                  helpers.coffee
+                </a>
               
-              <a class="source" href="index.html">
-                index.coffee
-              </a>
-            
+                
+                <a class="source" href="index.html">
+                  index.coffee
+                </a>
               
-              <a class="source" href="lexer.html">
-                lexer.coffee
-              </a>
-            
+                
+                <a class="source" href="lexer.html">
+                  lexer.coffee
+                </a>
               
-              <a class="source" href="nodes.html">
-                nodes.coffee
-              </a>
-            
+                
+                <a class="source" href="nodes.html">
+                  nodes.coffee
+                </a>
               
-              <a class="source" href="optparse.html">
-                optparse.coffee
-              </a>
-            
+                
+                <a class="source" href="optparse.html">
+                  optparse.coffee
+                </a>
               
-              <a class="source" href="register.html">
-                register.coffee
-              </a>
-            
+                
+                <a class="source" href="register.html">
+                  register.coffee
+                </a>
               
-              <a class="source" href="repl.html">
-                repl.coffee
-              </a>
-            
+                
+                <a class="source" href="repl.html">
+                  repl.coffee
+                </a>
               
-              <a class="source" href="rewriter.html">
-                rewriter.coffee
-              </a>
-            
+                
+                <a class="source" href="rewriter.html">
+                  rewriter.coffee
+                </a>
               
-              <a class="source" href="scope.html">
-                scope.litcoffee
-              </a>
-            
+                
+                <a class="source" href="scope.html">
+                  scope.litcoffee
+                </a>
               
-              <a class="source" href="sourcemap.html">
-                sourcemap.litcoffee
-              </a>
-            
+                
+                <a class="source" href="sourcemap.html">
+                  sourcemap.litcoffee
+                </a>
+              
+            </div>
           </div>
         </li>
       </ul>
@@ -160,6 +162,33 @@ Jison 是个自底而上的解析器生成工具, 和 <a href="http://www.gnu.or
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Since we’re going to be wrapped in a function by Jison in any case, if our
+action immediately returns a value, we can optimize by removing the function
+wrapper and just returning the value directly.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               
             </div>
@@ -438,7 +467,17 @@ Jison 是个自底而上的解析器生成工具, 和 <a href="http://www.gnu.or
             
             <div class="content"><div class='highlight'><pre>  <span class="hljs-attribute">AlphaNumeric</span>: [
     o <span class="hljs-string">'NUMBER'</span>,<span class="hljs-function">                                 -&gt;</span> <span class="hljs-keyword">new</span> Literal $<span class="hljs-number">1</span>
+    o <span class="hljs-string">'String'</span>
+  ]
+
+  <span class="hljs-attribute">String</span>: [
     o <span class="hljs-string">'STRING'</span>,<span class="hljs-function">                                 -&gt;</span> <span class="hljs-keyword">new</span> Literal $<span class="hljs-number">1</span>
+    o <span class="hljs-string">'STRING_START Body STRING_END'</span>,<span class="hljs-function">           -&gt;</span> <span class="hljs-keyword">new</span> Parens $<span class="hljs-number">2</span>
+  ]
+
+  <span class="hljs-attribute">Regex</span>: [
+    o <span class="hljs-string">'REGEX'</span>,<span class="hljs-function">                                  -&gt;</span> <span class="hljs-keyword">new</span> Literal $<span class="hljs-number">1</span>
+    o <span class="hljs-string">'REGEX_START Invocation REGEX_END'</span>,<span class="hljs-function">       -&gt;</span> $<span class="hljs-number">2</span>
   ]</pre></div></div>
             
         </li>
@@ -457,7 +496,7 @@ Jison 是个自底而上的解析器生成工具, 和 <a href="http://www.gnu.or
             <div class="content"><div class='highlight'><pre>  <span class="hljs-attribute">Literal</span>: [
     o <span class="hljs-string">'AlphaNumeric'</span>
     o <span class="hljs-string">'JS'</span>,<span class="hljs-function">                                     -&gt;</span> <span class="hljs-keyword">new</span> Literal $<span class="hljs-number">1</span>
-    o <span class="hljs-string">'REGEX'</span>,<span class="hljs-function">                                  -&gt;</span> <span class="hljs-keyword">new</span> Literal $<span class="hljs-number">1</span>
+    o <span class="hljs-string">'Regex'</span>
     o <span class="hljs-string">'DEBUGGER'</span>,<span class="hljs-function">                               -&gt;</span> <span class="hljs-keyword">new</span> Literal $<span class="hljs-number">1</span>
     o <span class="hljs-string">'UNDEFINED'</span>,<span class="hljs-function">                              -&gt;</span> <span class="hljs-keyword">new</span> Undefined
     o <span class="hljs-string">'NULL'</span>,<span class="hljs-function">                                   -&gt;</span> <span class="hljs-keyword">new</span> Null
@@ -1208,7 +1247,8 @@ Comprehension 一般带个代执行的表达式块, 也可以是后缀式地加�
   ]
 
   <span class="hljs-attribute">ForBody</span>: [
-    o <span class="hljs-string">'FOR Range'</span>,<span class="hljs-function">                              -&gt;</span> <span class="hljs-attribute">source</span>: LOC(<span class="hljs-number">2</span>) <span class="hljs-keyword">new</span> Value($<span class="hljs-number">2</span>)
+    o <span class="hljs-string">'FOR Range'</span>,<span class="hljs-function">                              -&gt;</span> <span class="hljs-attribute">source</span>: (LOC(<span class="hljs-number">2</span>) <span class="hljs-keyword">new</span> Value($<span class="hljs-number">2</span>))
+    o <span class="hljs-string">'FOR Range BY Expression'</span>,<span class="hljs-function">                -&gt;</span> <span class="hljs-attribute">source</span>: (LOC(<span class="hljs-number">2</span>) <span class="hljs-keyword">new</span> Value($<span class="hljs-number">2</span>)), <span class="hljs-attribute">step</span>: $<span class="hljs-number">4</span>
     o <span class="hljs-string">'ForStart ForSource'</span>,<span class="hljs-function">                     -&gt;</span> $<span class="hljs-number">2.</span>own = $<span class="hljs-number">1.</span>own; $<span class="hljs-number">2.</span>name = $<span class="hljs-number">1</span>[<span class="hljs-number">0</span>]; $<span class="hljs-number">2.</span>index = $<span class="hljs-number">1</span>[<span class="hljs-number">1</span>]; $<span class="hljs-number">2</span>
   ]
 
@@ -1368,6 +1408,9 @@ Comprehension 一般带个代执行的表达式块, 也可以是后缀式地加�
     o <span class="hljs-string">'UNARY_MATH Expression'</span>,<span class="hljs-function">                  -&gt;</span> <span class="hljs-keyword">new</span> Op $<span class="hljs-number">1</span> , $<span class="hljs-number">2</span>
     o <span class="hljs-string">'-     Expression'</span>,                      (<span class="hljs-function">-&gt;</span> <span class="hljs-keyword">new</span> Op <span class="hljs-string">'-'</span>, $<span class="hljs-number">2</span>), <span class="hljs-attribute">prec</span>: <span class="hljs-string">'UNARY_MATH'</span>
     o <span class="hljs-string">'+     Expression'</span>,                      (<span class="hljs-function">-&gt;</span> <span class="hljs-keyword">new</span> Op <span class="hljs-string">'+'</span>, $<span class="hljs-number">2</span>), <span class="hljs-attribute">prec</span>: <span class="hljs-string">'UNARY_MATH'</span>
+    o <span class="hljs-string">'YIELD Statement'</span>,<span class="hljs-function">                        -&gt;</span> <span class="hljs-keyword">new</span> Op $<span class="hljs-number">1</span> , $<span class="hljs-number">2</span>
+    o <span class="hljs-string">'YIELD Expression'</span>,<span class="hljs-function">                       -&gt;</span> <span class="hljs-keyword">new</span> Op $<span class="hljs-number">1</span> , $<span class="hljs-number">2</span>
+    o <span class="hljs-string">'YIELD FROM Expression'</span>,<span class="hljs-function">                  -&gt;</span> <span class="hljs-keyword">new</span> Op $<span class="hljs-number">1.</span>concat($<span class="hljs-number">2</span>) , $<span class="hljs-number">3</span>
 
     o <span class="hljs-string">'-- SimpleAssignable'</span>,<span class="hljs-function">                    -&gt;</span> <span class="hljs-keyword">new</span> Op <span class="hljs-string">'--'</span>, $<span class="hljs-number">2</span>
     o <span class="hljs-string">'++ SimpleAssignable'</span>,<span class="hljs-function">                    -&gt;</span> <span class="hljs-keyword">new</span> Op <span class="hljs-string">'++'</span>, $<span class="hljs-number">2</span>
@@ -1468,6 +1511,7 @@ Comprehension 一般带个代执行的表达式块, 也可以是后缀式地加�
   [<span class="hljs-string">'left'</span>,      <span class="hljs-string">'COMPARE'</span>]
   [<span class="hljs-string">'left'</span>,      <span class="hljs-string">'LOGIC'</span>]
   [<span class="hljs-string">'nonassoc'</span>,  <span class="hljs-string">'INDENT'</span>, <span class="hljs-string">'OUTDENT'</span>]
+  [<span class="hljs-string">'right'</span>,     <span class="hljs-string">'YIELD'</span>]
   [<span class="hljs-string">'right'</span>,     <span class="hljs-string">'='</span>, <span class="hljs-string">':'</span>, <span class="hljs-string">'COMPOUND_ASSIGN'</span>, <span class="hljs-string">'RETURN'</span>, <span class="hljs-string">'THROW'</span>, <span class="hljs-string">'EXTENDS'</span>]
   [<span class="hljs-string">'right'</span>,     <span class="hljs-string">'FORIN'</span>, <span class="hljs-string">'FOROF'</span>, <span class="hljs-string">'BY'</span>, <span class="hljs-string">'WHEN'</span>]
   [<span class="hljs-string">'right'</span>,     <span class="hljs-string">'IF'</span>, <span class="hljs-string">'ELSE'</span>, <span class="hljs-string">'FOR'</span>, <span class="hljs-string">'WHILE'</span>, <span class="hljs-string">'UNTIL'</span>, <span class="hljs-string">'LOOP'</span>, <span class="hljs-string">'SUPER'</span>, <span class="hljs-string">'CLASS'</span>]
